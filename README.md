@@ -2,8 +2,10 @@
 
 Generate shades and tints from primary colors hex values.
 
-[![style: very good analysis][vga_badge]][very_good_analysis]
+[![style: very good analysis][vga_badge]][very_good_analysis] [![pub package][gator_badge]][gator_pub]
 
+[gator_badge]: https://img.shields.io/pub/v/gator.svg
+[gator_pub]: https://pub.dev/packages/gator
 [vga_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis]: https://pub.dev/packages/very_good_analysis
 
