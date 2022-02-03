@@ -1,6 +1,6 @@
 # 🎨 Gator
 
-Generate shades and tints from primary colors hex values.
+Generate shades and tints from primary colors hex values for easy setup.
 
 [![style: very good analysis][vga_badge]][very_good_analysis] [![pub package][gator_badge]][gator_pub]
 

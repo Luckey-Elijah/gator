@@ -1,5 +1,5 @@
 name: gator
-description: Generate shades and tints from primary colors hex values in on easy command and config.
+description: Generate shades and tints from primary colors hex values for easy setup.
 version: 1.0.0
 repository: https://github.com/Luckey-Elijah/gator
 
