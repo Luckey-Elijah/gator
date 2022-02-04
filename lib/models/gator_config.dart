@@ -63,6 +63,7 @@ gator:
   /// The name of class to be generated from the configuration.
   final String className;
 
+  /// The optional output path for the generated file.
   final String? outputPath;
 
   /// All the colors adapted from the configuration.
