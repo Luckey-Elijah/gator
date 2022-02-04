@@ -1,0 +1,70 @@
+import 'package:gator/gator.dart';
+import 'package:test/test.dart';
+
+void main() {
+  test('colorTint', () {
+    expect(
+      colorTint(const Color.rgb(2, 2, 2), 1),
+      equals(const Color.rgb(27, 27, 27)),
+    );
+  });
+
+  test('colorShade', () {
+    expect(
+      colorShade(const Color.rgb(26, 26, 26), 1),
+      equals(const Color.rgb(23, 23, 23)),
+    );
+  });
+
+  test('generate', () {
+    const mockColor = Color.rgb(26, 26, 26);
+    final actual = generate(mockColor, (_, __) => mockColor, isTint: false);
+    final matcher = List.generate(5, (_) => mockColor);
+    expect(actual, matcher);
+  });
+
+  test('calculateTints', () {
+    final actual = calculateTints(const Color.rgb(26, 26, 26));
+    const matcher = <Color>[
+      Color.rgb(118, 118, 118),
+      Color.rgb(95, 95, 95),
+      Color.rgb(72, 72, 72),
+      Color.rgb(49, 49, 49),
+      Color.rgb(26, 26, 26)
+    ];
+    expect(actual, matcher);
+  });
+
+  test('calculateShades', () {
+    final actual = calculateShades(const Color.rgb(26, 26, 26));
+    const matcher = <Color>[
+      Color.rgb(26, 26, 26),
+      Color.rgb(23, 23, 23),
+      Color.rgb(21, 21, 21),
+      Color.rgb(18, 18, 18),
+      Color.rgb(16, 16, 16)
+    ];
+    expect(actual, matcher);
+  });
+
+  test('createTintsAndShades', () {
+    const configColor = ConfigColor(red: 26, green: 26, blue: 26, name: 'name');
+    final actual = createTintsAndShades([configColor]);
+    final matcher = <ConfigColor, List<Color>>{
+      configColor: const <Color>[
+        Color.rgb(118, 118, 118),
+        Color.rgb(95, 95, 95),
+        Color.rgb(72, 72, 72),
+        Color.rgb(49, 49, 49),
+        Color.rgb(26, 26, 26),
+        Color.rgb(26, 26, 26),
+        Color.rgb(23, 23, 23),
+        Color.rgb(21, 21, 21),
+        Color.rgb(18, 18, 18),
+        Color.rgb(16, 16, 16)
+      ]
+    };
+
+    expect(actual, matcher);
+  });
+}

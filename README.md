@@ -88,3 +88,18 @@ class MyColors {
   );
 }
 ```
+
+## Contributing
+
+Make sure your changes are covered.
+
+```sh
+# ensure you have `coverage` installed:
+# $ dart pub global activate coverage
+dart run test --coverage coverage \
+  && dart pub global run coverage:format_coverage -i coverage/test -o coverage/lcov.info --lcov \
+  && genhtml -q coverage/lcov.info -o coverage/html
+
+# Open your generated coverage:
+open coverage/html/index.html
+```

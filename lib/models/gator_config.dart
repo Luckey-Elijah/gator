@@ -43,12 +43,12 @@ gator:
     final shaderConfig = yamlDoc['gator'] as YamlMap;
     final yamlColors = shaderConfig['colors'] as YamlMap;
     final className = shaderConfig['class'] as String?;
-    final decodedColors = yamlColors.keys.map<ConfigColor>(
-      (dynamic color) => ConfigColor.fromHex(
-        hex: yamlColors[color] as String,
-        name: color as String,
-      ),
-    );
+    final decodedColors = yamlColors.keys.cast<String>().map<ConfigColor>(
+          (String color) => ConfigColor.fromHex(
+            hex: yamlColors[color] as String,
+            name: color,
+          ),
+        );
 
     return GatorConfig._(
       colors: decodedColors,

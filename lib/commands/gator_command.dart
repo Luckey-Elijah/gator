@@ -7,9 +7,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:gator/gator.dart';
 import 'package:mason_logger/mason_logger.dart';
-
-const _tintFactors = [5, 10, 20, 30, 40];
-const _shadeFactors = [60, 70, 80, 90];
+import 'package:recase/recase.dart';
 
 /// {@template gator_command}
 /// Entry point for running the `gator` executable.
@@ -36,9 +34,11 @@ class GatorCommand extends Command<int> {
     final configSource = _results['config'] as String;
     final output = _results['output'] as String;
     try {
-      final yaml = yamlDoc(configSource, _logger);
+      final yaml = yamlDoc(configSource);
       final config = GatorConfig.fromYaml(yaml);
-      final fields = _buildFieldsForColor(config.colors);
+      final colors = createTintsAndShades(config.colors);
+
+      final fields = _buildFieldsForColor(colors);
       final constructors = [Constructor((b) => b.name = '_')];
       final directive = Directive(
         (b) => b
@@ -50,7 +50,7 @@ class GatorCommand extends Command<int> {
       final generatedClass = Class(
         (b) => b
           ..constructors = ListBuilder<Constructor>(constructors)
-          ..name = config.className
+          ..name = config.className.pascalCase
           ..fields = ListBuilder<Field>(fields),
       );
 
@@ -66,7 +66,7 @@ class GatorCommand extends Command<int> {
 
       File(output)
         ..writeAsStringSync(generatedCode)
-        ..createSync();
+        ..createSync(recursive: true);
 
       return 0;
     } catch (e, s) {
@@ -77,52 +77,64 @@ class GatorCommand extends Command<int> {
     }
   }
 
-  List<Field> _buildFieldsForColor(Iterable<ConfigColor> colors) {
+  List<Field> _buildFieldsForColor(
+    Map<ConfigColor, List<Color>> colors,
+  ) {
     final fields = <Field>[];
+    const materialShadeKeys = [
+      '050', '100', '200', '300', '400', //
+      '500', '600', '700', '800', '900',
+    ];
+    colors.forEach(
+      (configColor, shadeColors) {
+        assert(
+          shadeColors.length == 10,
+          'Expected [shadeColors.length] to equal 10. '
+          'Actually: [shadeColors.length]: ${shadeColors.length}',
+        );
 
-    for (final color in colors) {
-      final primaryValueField = Field((b) {
-        b
-          ..static = true
-          ..modifier = FieldModifier.constant
-          ..type = const Reference('int')
-          ..name = '_${color.name}PrimaryValue'
-          ..assignment = Code(color.hex);
-      });
+        final fieldName = configColor.name.camelCase;
+        final primaryFieldName = '_${fieldName}PrimaryValue';
 
-      fields.add(primaryValueField);
+        final primaryValueField = Field((b) {
+          b
+            ..static = true
+            ..modifier = FieldModifier.constant
+            ..name = primaryFieldName
+            ..assignment = Code(configColor.hex);
+        });
 
-      final swatchColorField = Field((b) {
-        b
-          ..static = true
-          ..modifier = FieldModifier.constant
-          ..name = color.name
-          ..assignment = _swatchBuilder(primaryValueField, color);
-      });
+        final buffer = StringBuffer();
 
-      fields.add(swatchColorField);
-    }
+        for (var i = 0; i < 10; i++) {
+          final key = materialShadeKeys[i];
+          if (key == '500') {
+            buffer.writeln('$key: Color($primaryFieldName),');
+          } else {
+            buffer.writeln('$key: Color(${shadeColors[i].hex}),');
+          }
+        }
+
+        final materialColorField = Field((b) {
+          b
+            ..static = true
+            ..modifier = FieldModifier.constant
+            ..name = fieldName
+            ..assignment = Code(
+              'MaterialColor($primaryFieldName, <int, Color>{$buffer},)',
+            );
+        });
+
+        fields.addAll([primaryValueField, materialColorField]);
+      },
+    );
+
     return fields;
   }
 
-  Code _swatchBuilder(Field primaryValueField, ConfigColor color) {
-    return Code(
-      '''
-MaterialColor(
-  ${primaryValueField.name},
-  <int, Color>{
-    ${colorSetMapper(color: color, updater: tinter, factorSet: _tintFactors)}
-    500: Color(${primaryValueField.name}),
-    ${colorSetMapper(color: color, updater: shader, factorSet: _shadeFactors)}
-  },
-)
-            ''',
-    );
-  }
-
   @override
-  String get description =>
-      'Generate shades and tints from primary colors values.';
+  String get description => 'Generate shades and tints from primary colors hex '
+      'values for easy setup.';
 
   @override
   String get name => 'gator';
