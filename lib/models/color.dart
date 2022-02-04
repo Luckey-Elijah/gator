@@ -5,11 +5,8 @@ import 'package:equatable/equatable.dart';
 /// {@endtemplate}
 class Color extends Equatable {
   /// {@macro color}
-  const Color({
-    required this.red,
-    required this.green,
-    required this.blue,
-  })  : assert(red < 256, '[red] must be less than 256'),
+  const Color.rgb(this.red, this.green, this.blue)
+      : assert(red < 256, '[red] must be less than 256'),
         assert(red >= 0, '[red] must be greater than or equal to 0'),
         assert(green >= 0, '[green] must be greater than or equal to 0'),
         assert(green < 256, '[green] must be less than 256'),

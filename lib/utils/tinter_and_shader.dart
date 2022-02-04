@@ -1,62 +1,51 @@
 import 'package:gator/gator.dart';
 
-/// Calculate a tint value for a singe red, green, or, blue value.
-///
-/// {@template calc_value_assertion}
-/// [value] must be between `-1` and `256`.
-/// [factor] must be between `-1` and `101`.
-/// {@endtemplate}
-int tinter(int value, int factor) {
-  _assertValue(value);
-  _assetFactor(factor);
-  final tintFactor = factor / 100;
-  final offSet = 255 - value;
-  final lighterValue = value + (offSet * tintFactor);
-  return lighterValue.round();
-}
-
-/// Calculate a shade value for a singe red, green, or, blue value.
-///
-/// {@macro calc_value_assertion}
-int shader(int value, int factor) {
-  _assertValue(value);
-  _assetFactor(factor);
-  return (value * (factor / 100)).round();
-}
-
-void _assetFactor(int factor) {
-  assert(
-    factor > -1 && factor < 101,
-    '[factor] must be between -1 and 101',
-  );
-}
-
-void _assertValue(int value) {
-  assert(
-    value > -1 && value < 256,
-    '[value] must be between -1 and 256',
-  );
-}
-
-/// Create a series of mapped shades and/or tints based on a given [factorSet] and
-/// [updater] from a [color].
-String colorSetMapper({
-  required ConfigColor color,
-  required int Function(int, int) updater,
-  required Iterable<int> factorSet,
-}) {
-  final buffer = StringBuffer();
-
-  for (final factor in factorSet) {
-    final red = updater(color.red, factor);
-    final green = updater(color.green, factor);
-    final blue = updater(color.blue, factor);
-
-    final updatedColor = Color(red: red, green: green, blue: blue);
-    buffer.write(
-      '${factor.toString().padLeft(2, '0').padRight(3, '0')} : '
-      'Color(${updatedColor.hex}),',
+/// Tints a single [Color] and returns the new tinted value.
+Color colorTint(Color color, int i) => Color.rgb(
+      (color.red + (255 - color.red) * i * 0.1).round(),
+      (color.green + (255 - color.green) * i * 0.1).round(),
+      (color.blue + (255 - color.blue) * i * 0.1).round(),
     );
+
+/// Shades a single [Color] and returns the new shaded value.
+Color colorShade(Color color, int i) => Color.rgb(
+      (color.red * (1 - 0.1 * i)).round(),
+      (color.green * (1 - 0.1 * i)).round(),
+      (color.blue * (1 - 0.1 * i)).round(),
+    );
+
+/// Generator the given shader or tinter calculation.
+List<Color> generate(
+  Color color,
+  Color Function(Color, int) shadeOrTint, {
+  required bool isTint,
+}) {
+  final shadeValues = <Color>[];
+  for (var i = 0; i < 5; i++) {
+    final shadeValue = shadeOrTint(color, i);
+    shadeValues.add(shadeValue);
   }
-  return buffer.toString();
+  return isTint ? shadeValues.reversed.toList() : shadeValues;
+}
+
+/// Generate all the tints for the given color
+List<Color> calculateTints(Color color) =>
+    generate(color, colorTint, isTint: true);
+
+/// Generate all the shades for the given color
+List<Color> calculateShades(Color color) =>
+    generate(color, colorShade, isTint: false);
+
+/// Generate all the shades and tints for the given colors
+Map<ConfigColor, List<Color>> createTintsAndShades(
+  Iterable<ConfigColor> colors,
+) {
+  final tintsShades = <ConfigColor, List<Color>>{};
+  for (final color in colors) {
+    tintsShades[color] = [
+      ...calculateTints(color),
+      ...calculateShades(color),
+    ];
+  }
+  return tintsShades;
 }

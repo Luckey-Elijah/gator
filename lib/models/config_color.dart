@@ -1,4 +1,5 @@
 import 'package:gator/gator.dart';
+import 'package:meta/meta.dart';
 
 /// {@template config_color}
 /// A [Color] that is adapted from a configuration.
@@ -10,11 +11,7 @@ class ConfigColor extends Color {
     required int green,
     required int blue,
     required this.name,
-  }) : super(
-          red: red,
-          green: green,
-          blue: blue,
-        );
+  }) : super.rgb(red, green, blue);
 
   /// A Color created from a hexadecimal value. Accepted formats include:
   /// - `0ff6002ee`
@@ -49,8 +46,6 @@ class ConfigColor extends Color {
       hex = hex.substring(1, hex.length);
     }
 
-    int getInt(String hex) => int.parse(hex, radix: 16);
-
     final redHex = hex.substring(0, 2);
     final red = getInt(redHex);
 
@@ -67,6 +62,10 @@ class ConfigColor extends Color {
       name: name,
     );
   }
+
+  /// Convert the hex string into a base-10 integer.
+  @visibleForTesting
+  static int getInt(String hex) => int.parse(hex, radix: 16);
 
   /// The name of this color.
   final String name;
