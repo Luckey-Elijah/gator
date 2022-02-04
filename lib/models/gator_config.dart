@@ -18,6 +18,7 @@ class GatorConfig extends Equatable {
   const GatorConfig._({
     required this.className,
     required this.colors,
+    required this.outputPath,
   });
 
   /// {@macro gator_config}
@@ -33,16 +34,18 @@ Example:
 ```yaml
 gator:
   class: MyColors
+  output: example/colors.g.dart
   colors:
     royalBlue: '0xff062091'
-    grey: '#ffd6d6d6'
-```
+    grey: '#d6d6d6'
+    rebeccaPurple: '663399'```
 ''',
     );
 
     final shaderConfig = yamlDoc['gator'] as YamlMap;
     final yamlColors = shaderConfig['colors'] as YamlMap;
     final className = shaderConfig['class'] as String?;
+    final outputPath = shaderConfig['output'] as String?;
     final decodedColors = yamlColors.keys.cast<String>().map<ConfigColor>(
           (String color) => ConfigColor.fromHex(
             hex: yamlColors[color] as String,
@@ -51,6 +54,7 @@ gator:
         );
 
     return GatorConfig._(
+      outputPath: outputPath,
       colors: decodedColors,
       className: className ?? 'MyColors',
     );
@@ -58,6 +62,8 @@ gator:
 
   /// The name of class to be generated from the configuration.
   final String className;
+
+  final String? outputPath;
 
   /// All the colors adapted from the configuration.
   final Iterable<ConfigColor> colors;

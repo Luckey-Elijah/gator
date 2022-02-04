@@ -32,11 +32,13 @@ class GatorCommand extends Command<int> {
   @override
   int run() {
     final configSource = _results['config'] as String;
-    final output = _results['output'] as String;
+    final resultsOutput = _results['output'] as String;
     try {
       final yaml = yamlDoc(configSource);
       final config = GatorConfig.fromYaml(yaml);
       final colors = createTintsAndShades(config.colors);
+
+      final _output = config.outputPath ?? resultsOutput;
 
       final fields = _buildFieldsForColor(colors);
       final constructors = [Constructor((b) => b.name = '_')];
@@ -64,7 +66,7 @@ class GatorCommand extends Command<int> {
         '${library.accept(_emitter)}',
       );
 
-      File(output)
+      File(_output)
         ..writeAsStringSync(generatedCode)
         ..createSync(recursive: true);
 
