@@ -18,32 +18,8 @@ void main() {
 
   test('generate', () {
     const mockColor = Color.rgb(26, 26, 26);
-    final actual = generate(mockColor, (_, __) => mockColor, isTint: false);
+    final actual = generate(mockColor, (_, __) => mockColor);
     final matcher = List.generate(5, (_) => mockColor);
-    expect(actual, matcher);
-  });
-
-  test('calculateTints', () {
-    final actual = calculateTints(const Color.rgb(26, 26, 26));
-    const matcher = <Color>[
-      Color.rgb(118, 118, 118),
-      Color.rgb(95, 95, 95),
-      Color.rgb(72, 72, 72),
-      Color.rgb(49, 49, 49),
-      Color.rgb(26, 26, 26)
-    ];
-    expect(actual, matcher);
-  });
-
-  test('calculateShades', () {
-    final actual = calculateShades(const Color.rgb(26, 26, 26));
-    const matcher = <Color>[
-      Color.rgb(26, 26, 26),
-      Color.rgb(23, 23, 23),
-      Color.rgb(21, 21, 21),
-      Color.rgb(18, 18, 18),
-      Color.rgb(16, 16, 16)
-    ];
     expect(actual, matcher);
   });
 

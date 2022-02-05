@@ -15,26 +15,14 @@ Color colorShade(Color color, int i) => Color.rgb(
     );
 
 /// Generator the given shader or tinter calculation.
-List<Color> generate(
-  Color color,
-  Color Function(Color, int) shadeOrTint, {
-  required bool isTint,
-}) {
+List<Color> generate(Color color, Color Function(Color, int) shadeOrTint) {
   final shadeValues = <Color>[];
   for (var i = 0; i < 5; i++) {
     final shadeValue = shadeOrTint(color, i);
     shadeValues.add(shadeValue);
   }
-  return isTint ? shadeValues.reversed.toList() : shadeValues;
+  return shadeValues;
 }
-
-/// Generate all the tints for the given color
-List<Color> calculateTints(Color color) =>
-    generate(color, colorTint, isTint: true);
-
-/// Generate all the shades for the given color
-List<Color> calculateShades(Color color) =>
-    generate(color, colorShade, isTint: false);
 
 /// Generate all the shades and tints for the given colors
 Map<ConfigColor, List<Color>> createTintsAndShades(
@@ -43,8 +31,8 @@ Map<ConfigColor, List<Color>> createTintsAndShades(
   final tintsShades = <ConfigColor, List<Color>>{};
   for (final color in colors) {
     tintsShades[color] = [
-      ...calculateTints(color),
-      ...calculateShades(color),
+      ...generate(color, colorTint).reversed.toList(),
+      ...generate(color, colorShade),
     ];
   }
   return tintsShades;
