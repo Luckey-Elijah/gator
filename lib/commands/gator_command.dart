@@ -70,6 +70,8 @@ class GatorCommand extends Command<int> {
         ..writeAsStringSync(generatedCode)
         ..createSync(recursive: true);
 
+      _logger.success('🎨 Generated $_output!');
+
       return 0;
     } on FileSystemException catch (e) {
       _logger.err('${e.message} ${e.path}');
