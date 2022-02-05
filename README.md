@@ -11,7 +11,7 @@ Generate shades and tints from primary colors hex values for easy setup.
 
 ## Example
 
-Append the `shader` spec to your `pubspec.yaml`. If no `pubspec.yaml` create your own config file
+Append the `gator` spec to your `pubspec.yaml`. If no `pubspec.yaml` create your own config file
 (such as `colors.yaml` or `gator.yaml`) and specify it in the command.
 
 ```sh
