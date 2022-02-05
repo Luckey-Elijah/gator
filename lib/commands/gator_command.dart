@@ -33,6 +33,11 @@ class GatorCommand extends Command<int> {
   int run() {
     final configSource = _results['config'] as String;
     final resultsOutput = _results['output'] as String;
+
+    if (!File(configSource).existsSync()) {
+      throw FileSystemException('Cannot read file', configSource);
+    }
+
     try {
       final yaml = yamlDoc(configSource);
       final config = GatorConfig.fromYaml(yaml);
