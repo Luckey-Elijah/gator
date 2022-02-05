@@ -5,6 +5,7 @@ Configuration:
 ```yaml
 gator:
   class: MyColors
+  output: my_colors.g.dart
   colors:
     royalBlue: '0xff062091'
     grey: '#d6d6d6'
@@ -14,7 +15,7 @@ gator:
 Run:
 
 ```sh
-gator -c colors.yaml -o example.dart
+gator -c colors.yaml
 ```
 
 Generates:
