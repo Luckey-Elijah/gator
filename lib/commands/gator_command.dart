@@ -33,6 +33,11 @@ class GatorCommand extends Command<int> {
   int run() {
     final configSource = _results['config'] as String;
     final resultsOutput = _results['output'] as String;
+
+    if (!File(configSource).existsSync()) {
+      throw FileSystemException('Cannot read file', configSource);
+    }
+
     try {
       final yaml = yamlDoc(configSource);
       final config = GatorConfig.fromYaml(yaml);
@@ -70,7 +75,12 @@ class GatorCommand extends Command<int> {
         ..writeAsStringSync(generatedCode)
         ..createSync(recursive: true);
 
+      _logger.success('🎨 Generated $_output!');
+
       return 0;
+    } on FileSystemException catch (e) {
+      _logger.err('${e.message} ${e.path}');
+      return 1;
     } catch (e, s) {
       _logger
         ..warn(e.toString())
