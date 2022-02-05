@@ -71,6 +71,9 @@ class GatorCommand extends Command<int> {
         ..createSync(recursive: true);
 
       return 0;
+    } on FileSystemException catch (e) {
+      _logger.err('${e.message} ${e.path}');
+      return 1;
     } catch (e, s) {
       _logger
         ..warn(e.toString())
