@@ -1,4 +1,4 @@
-# 🎨 Gator
+# 🖍 Gator
 
 Generate shades and tints from primary colors hex values for easy setup.
 
