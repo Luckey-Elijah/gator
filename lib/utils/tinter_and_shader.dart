@@ -31,7 +31,7 @@ Map<ConfigColor, List<Color>> createTintsAndShades(
   final tintsShades = <ConfigColor, List<Color>>{};
   for (final color in colors) {
     tintsShades[color] = [
-      ...generate(color, colorTint).reversed.toList(),
+      ...generate(color, colorTint).reversed,
       ...generate(color, colorShade),
     ];
   }
