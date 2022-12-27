@@ -14,26 +14,14 @@ Color colorShade(Color color, int i) => Color.rgb(
       (color.blue * (1 - 0.1 * i)).round(),
     );
 
-/// Generator the given shader or tinter calculation.
-List<Color> generate(Color color, Color Function(Color, int) shadeOrTint) {
-  final shadeValues = <Color>[];
-  for (var i = 0; i < 5; i++) {
-    final shadeValue = shadeOrTint(color, i);
-    shadeValues.add(shadeValue);
-  }
-  return shadeValues;
-}
-
 /// Generate all the shades and tints for the given colors
 Map<ConfigColor, List<Color>> createTintsAndShades(
   Iterable<ConfigColor> colors,
-) {
-  final tintsShades = <ConfigColor, List<Color>>{};
-  for (final color in colors) {
-    tintsShades[color] = [
-      ...generate(color, colorTint).reversed,
-      ...generate(color, colorShade),
-    ];
-  }
-  return tintsShades;
-}
+) =>
+    <ConfigColor, List<Color>>{
+      for (final color in colors)
+        color: [
+          ...Iterable<Color>.generate(5, (i) => colorTint(color, 4 - i)),
+          ...Iterable<Color>.generate(5, (i) => colorShade(color, i)),
+        ]
+    };

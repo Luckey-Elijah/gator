@@ -16,13 +16,6 @@ void main() {
     );
   });
 
-  test('generate', () {
-    const mockColor = Color.rgb(26, 26, 26);
-    final actual = generate(mockColor, (_, __) => mockColor);
-    final matcher = List.generate(5, (_) => mockColor);
-    expect(actual, matcher);
-  });
-
   test('createTintsAndShades', () {
     const configColor = ConfigColor(red: 26, green: 26, blue: 26, name: 'name');
     final actual = createTintsAndShades([configColor]);
