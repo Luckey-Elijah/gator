@@ -42,7 +42,7 @@ class GatorCommand extends Command<int> {
       final yaml = yamlDoc(configSource);
       final config = GatorConfig.fromYaml(yaml);
       final colors = createTintsAndShades(config.colors);
-      final _output = config.outputPath ?? resultsOutput;
+      final output = config.outputPath ?? resultsOutput;
       final fields = _buildFieldsForColor(colors);
       final constructors = [Constructor((b) => b.name = '_')];
       final directive = Directive(
@@ -73,11 +73,11 @@ class GatorCommand extends Command<int> {
 
       final generatedCode = _formatter.format('$library');
 
-      File(_output)
+      File(output)
         ..writeAsStringSync(generatedCode)
         ..createSync(recursive: true);
 
-      _logger.success('🖍 Created file: $_output!');
+      _logger.success('🖍 Created file: $output!');
 
       return 0;
     } on FileSystemException catch (e) {
