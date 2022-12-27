@@ -1,12 +1,15 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:gator/gator.dart';
 
+final _ansiPen = AnsiPen();
+
 /// Creates an ansi-compatable colored message from the color provided.
 String ansiColorizer({
   required Color color,
   required String message,
+  AnsiPen? ansiPen,
 }) {
-  final pen = AnsiPen()
+  final pen = (ansiPen ?? _ansiPen)
     ..rgb(
       r: color.red / 255,
       g: color.green / 255,
