@@ -1,3 +1,10 @@
+## 1.3.0
+
+- Upgrade to Dart 3
+- Updates analysis
+- Adds `InvalidValueRangeException`
+- `assertFactor` and `assertValue` will now throw `InvalidValueRangeException` when not in correct range
+
 ## 1.2.2
 
 - Lists colorized, generated colors in terminal
