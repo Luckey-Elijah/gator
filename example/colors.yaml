@@ -1,7 +1,0 @@
-gator:
-  class: MyColors
-  output: my_colors.g.dart
-  colors:
-    royalBlue: '0xff062091'
-    grey: '#d6d6d6'
-    rebeccaPurple: '663399'
