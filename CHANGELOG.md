@@ -1,3 +1,18 @@
+## 1.3.1
+
+- adds `--help` flag
+
+  ```sh
+  $ gator --help
+  Generate shades and tints from primary colors hex values for easy setup.
+
+  -c, --config    path of the config yaml file
+                  (defaults to "pubspec.yaml")
+  -o, --output    path of the generated file
+                  (defaults to "colors.g.dart")
+  -h, --help      Show this usage information.
+  ```
+
 ## 1.3.0
 
 - Upgrade to Dart 3
