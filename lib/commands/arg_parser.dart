@@ -13,4 +13,10 @@ final argParser = ArgParser()
     abbr: 'o',
     help: 'path of the generated file',
     defaultsTo: 'colors.g.dart',
+  )
+  ..addFlag(
+    'help',
+    abbr: 'h',
+    negatable: false,
+    help: 'Show this usage information.',
   );
