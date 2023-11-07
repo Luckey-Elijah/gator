@@ -27,6 +27,62 @@ void main() {
           throwsA(isA<InvalidGatorConfigException>()),
         );
       });
+
+      test('builds valid config: no class, no output', () {
+        final config = GatorConfig.fromYaml(
+          YamlMap.wrap({
+            'gator': <String, dynamic>{
+              'colors': <String, dynamic>{},
+            },
+          }),
+        );
+        expect(config.className, equals('MyColors'));
+        expect(config.outputPath, equals(null));
+        expect(config.colors.isEmpty, isTrue);
+      });
+
+      test('builds valid config: no class, no output', () {
+        final config = GatorConfig.fromYaml(
+          YamlMap.wrap({
+            'gator': <String, dynamic>{
+              'colors': <String, dynamic>{},
+              'class': 'TestClass',
+              'output': 'test/path.g.dart',
+            },
+          }),
+        );
+        expect(config.className, equals('TestClass'));
+        expect(config.outputPath, equals('test/path.g.dart'));
+        expect(config.colors.isEmpty, isTrue);
+      });
+
+      test('builds valid config: no output', () {
+        final config = GatorConfig.fromYaml(
+          YamlMap.wrap({
+            'gator': <String, dynamic>{
+              'colors': <String, dynamic>{},
+              'class': 'TestClass',
+            },
+          }),
+        );
+        expect(config.className, equals('TestClass'));
+        expect(config.outputPath, equals(null));
+        expect(config.colors.isEmpty, isTrue);
+      });
+
+      test('builds valid config: no class', () {
+        final config = GatorConfig.fromYaml(
+          YamlMap.wrap({
+            'gator': <String, dynamic>{
+              'colors': <String, dynamic>{},
+              'output': 'test/path.g.dart',
+            },
+          }),
+        );
+        expect(config.className, equals('MyColors'));
+        expect(config.outputPath, equals('test/path.g.dart'));
+        expect(config.colors.isEmpty, isTrue);
+      });
     });
   });
 }
