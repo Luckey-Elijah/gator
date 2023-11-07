@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:gator/gator.dart';
 import 'package:yaml/yaml.dart';
 
@@ -14,8 +13,9 @@ import 'package:yaml/yaml.dart';
 ///     grey: '#ffd6d6d6'
 /// ```
 /// {@endtemplate}
-class GatorConfig extends Equatable {
-  const GatorConfig._({
+class GatorConfig {
+  /// {@macro gator_config}
+  const GatorConfig({
     required this.className,
     required this.colors,
     required this.outputPath,
@@ -53,7 +53,7 @@ gator:
           ),
         );
 
-    return GatorConfig._(
+    return GatorConfig(
       outputPath: outputPath,
       colors: decodedColors,
       className: className ?? 'MyColors',
@@ -68,10 +68,4 @@ gator:
 
   /// All the colors adapted from the configuration.
   final Iterable<ConfigColor> colors;
-
-  @override
-  bool? get stringify => true;
-
-  @override
-  List<Object> get props => [className, colors];
 }

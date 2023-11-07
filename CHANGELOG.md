@@ -3,6 +3,8 @@
 ## 1.4.0
 
 - makes `AnsiPen ansiPen` required in `ansiColorizer`
+- `GatorConfig` default now has default constructor
+- `GatorConfig` is not longer extending `Equatable`
 
 ## 1.3.1
 
