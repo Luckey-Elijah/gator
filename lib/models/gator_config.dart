@@ -24,10 +24,52 @@ class GatorConfig {
   /// {@macro gator_config}
   /// There the `gator` and `colors` entries are required from the YAML
   /// document.
-  factory GatorConfig.fromYaml(YamlMap yamlDoc) {
-    assert(
-      yamlDoc['gator'] != null,
-      '''
+  factory GatorConfig.fromYaml(YamlMap yamlMap) {
+    if (yamlMap case {'gator': {'colors': final YamlMap yamlColors}}) {
+      ConfigColor toConfigColor(dynamic colorKey) {
+        return ConfigColor.fromHex(
+          hex: '${yamlColors[colorKey]}',
+          name: '$colorKey',
+        );
+      }
+
+      final outputPath = switch (yamlMap['gator']) {
+        {'output': final String? output} => output,
+        _ => null,
+      };
+
+      final className = switch (yamlMap['gator']) {
+        {'class': final String className} => className,
+        _ => 'MyColors',
+      };
+
+      return GatorConfig(
+        colors: yamlColors.keys.map<ConfigColor>(toConfigColor),
+        outputPath: outputPath,
+        className: className,
+      );
+    }
+
+    throw InvalidGatorConfigException();
+  }
+
+  /// The name of class to be generated from the configuration.
+  final String className;
+
+  /// The optional output path for the generated file.
+  final String? outputPath;
+
+  /// All the colors adapted from the configuration.
+  final Iterable<ConfigColor> colors;
+}
+
+/// {@template invalid_gator_config}
+/// A generic exception for a given invalid [GatorConfig].
+/// {@endtemplate}
+/// {@macro invalid_gator_config}
+class InvalidGatorConfigException implements Exception {
+  /// {@macro invalid_gator_config}
+  final message = '''
 A "gator" entry must be specified.
 Example:
 
@@ -39,33 +81,5 @@ gator:
     royalBlue: '0xff062091'
     grey: '#d6d6d6'
     rebeccaPurple: '663399'```
-''',
-    );
-
-    final shaderConfig = yamlDoc['gator'] as YamlMap;
-    final yamlColors = shaderConfig['colors'] as YamlMap;
-    final className = shaderConfig['class'] as String?;
-    final outputPath = shaderConfig['output'] as String?;
-    final decodedColors = yamlColors.keys.cast<String>().map<ConfigColor>(
-          (String color) => ConfigColor.fromHex(
-            hex: yamlColors[color] as String,
-            name: color,
-          ),
-        );
-
-    return GatorConfig(
-      outputPath: outputPath,
-      colors: decodedColors,
-      className: className ?? 'MyColors',
-    );
-  }
-
-  /// The name of class to be generated from the configuration.
-  final String className;
-
-  /// The optional output path for the generated file.
-  final String? outputPath;
-
-  /// All the colors adapted from the configuration.
-  final Iterable<ConfigColor> colors;
+''';
 }
