@@ -25,7 +25,7 @@ class ConfigColor extends Color {
     required String name,
   }) {
     assert(name.isNotEmpty, '[name] cannot be empty.');
-    assert(hex.length > 6, '[hex.length] should be greater than 6.');
+    assert(hex.length > 5, '[hex.length] should be at least 6.');
 
     hex = hex.substring(hex.length - 6, hex.length);
 
