@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ansicolor/ansicolor.dart';
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:built_collection/built_collection.dart';
@@ -100,6 +101,8 @@ class GatorCommand extends Command<int> {
       '500', '600', '700', '800', '900',
     ];
 
+    final pen = AnsiPen();
+
     colors.forEach(
       (configColor, shadeColors) {
         assert(
@@ -148,7 +151,9 @@ class GatorCommand extends Command<int> {
         final colorizedHex = ansiColorizer(
           color: configColor,
           message: configColor.hex,
+          ansiPen: pen,
         );
+
         _logger.info(
           'Generated Material Color ($colorizedHex) $underlineName',
         );

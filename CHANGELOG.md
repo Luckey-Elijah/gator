@@ -1,3 +1,9 @@
+# CHANGELOG
+
+## 1.4.0
+
+- makes `AnsiPen ansiPen` required in `ansiColorizer`
+
 ## 1.3.1
 
 - adds `--help` flag
@@ -24,7 +30,7 @@
 
 - Lists colorized, generated colors in terminal
 
-    ```
+    ```sh
     $ gator -c colors.yaml
     Generated Material Color (0xff062091) Royal Blue
     Generated Material Color (0xffd6d6d6) Grey
