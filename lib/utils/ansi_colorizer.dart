@@ -3,7 +3,7 @@ import 'package:gator/gator.dart';
 
 final _ansiPen = AnsiPen();
 
-/// Creates an ansi-compatable colored message from the color provided.
+/// Creates an ansi-compatible colored message from the color provided.
 String ansiColorizer({
   required Color color,
   required String message,
