@@ -80,6 +80,7 @@ gator:
   colors:
     royalBlue: '0xff062091'
     grey: '#d6d6d6'
-    rebeccaPurple: '663399'```
+    rebeccaPurple: '663399'
+```
 ''';
 }
