@@ -36,18 +36,7 @@ void main() {
       expect(
         () => ConfigColor.fromHex(hex: '12345', name: 'name'),
         throwsAssertionError,
-        reason: 'A [hex] should have a length of [10], [7], or [6]',
-      );
-
-      expect(
-        () => ConfigColor.fromHex(hex: '1234567890', name: 'name'),
-        throwsAssertionError,
-        reason: 'A [hex] of length [10] should start with [0xff].',
-      );
-      expect(
-        () => ConfigColor.fromHex(hex: '1234567', name: 'name'),
-        throwsAssertionError,
-        reason: 'A [hex] of length [7] should start with [#].',
+        reason: '[hex.length] should be greater than 6.',
       );
     });
   });

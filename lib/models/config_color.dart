@@ -25,40 +25,14 @@ class ConfigColor extends Color {
     required String name,
   }) {
     assert(name.isNotEmpty, '[name] cannot be empty.');
-    assert(
-      hex.length == 10 || hex.length == 7 || hex.length == 6,
-      '[hex.length] should be 10, 7, or 6',
-    );
+    assert(hex.length > 6, '[hex.length] should be greater than 6.');
 
-    if (hex.length == 10) {
-      assert(
-        hex.toLowerCase().startsWith('0xff'),
-        '[hex.length] of 10 should follow the format: "0xffRRGGBB"',
-      );
-      hex = hex.substring(4, hex.length);
-    }
-
-    if (hex.length == 7) {
-      assert(
-        hex.startsWith('#'),
-        '[hex.length] of 7 should follow the format: "0xffRRGGBB"',
-      );
-      hex = hex.substring(1, hex.length);
-    }
-
-    final redHex = hex.substring(0, 2);
-    final red = getInt(redHex);
-
-    final greenHex = hex.substring(2, 4);
-    final green = getInt(greenHex);
-
-    final blueHex = hex.substring(4, 6);
-    final blue = getInt(blueHex);
+    hex = hex.substring(hex.length - 6, hex.length);
 
     return ConfigColor(
-      red: red,
-      green: green,
-      blue: blue,
+      red: getInt(hex.substring(0, 2)),
+      green: getInt(hex.substring(2, 4)),
+      blue: getInt(hex.substring(4, 6)),
       name: name,
     );
   }
