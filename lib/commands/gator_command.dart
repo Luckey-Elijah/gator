@@ -39,7 +39,7 @@ class GatorCommand extends Command<int> {
         throw FileSystemException('Cannot read file', configSource);
       }
 
-      final yaml = yamlDoc(configSource);
+      final yaml = yamlDoc(File(configSource));
       final config = GatorConfig.fromYaml(yaml);
       final colors = createTintsAndShades(config.colors);
       final output = config.outputPath ?? resultsOutput;

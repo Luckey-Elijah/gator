@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:gator/utils/utils.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
@@ -17,9 +17,9 @@ gator:
     rebeccaPurple: '663399'
 ''';
 
-    final path = join(cwd, 'colors.yaml');
+    final path = p.join(cwd, 'colors.yaml');
     final file = File(path)..writeAsStringSync(contents);
-    final doc = yamlDoc(path, file);
+    final doc = yamlDoc(file);
 
     expect(doc.containsKey('gator'), isTrue);
 

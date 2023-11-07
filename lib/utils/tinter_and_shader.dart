@@ -21,7 +21,7 @@ Map<ConfigColor, List<Color>> createTintsAndShades(
     <ConfigColor, List<Color>>{
       for (final color in colors)
         color: [
-          ...Iterable<Color>.generate(5, (i) => colorTint(color, 4 - i)),
-          ...Iterable<Color>.generate(5, (i) => colorShade(color, i)),
-        ]
+          ...Iterable.generate(5, (i) => colorTint(color, 4 - i)),
+          ...Iterable.generate(5, (i) => colorShade(color, i)),
+        ],
     };

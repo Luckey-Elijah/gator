@@ -30,8 +30,8 @@ void main() {
         Color.rgb(23, 23, 23),
         Color.rgb(21, 21, 21),
         Color.rgb(18, 18, 18),
-        Color.rgb(16, 16, 16)
-      ]
+        Color.rgb(16, 16, 16),
+      ],
     };
 
     expect(actual, matcher);
