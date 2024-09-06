@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.5.0
+
+- update dart to `3.5.0`
+- upgrade dependencies
+
 ## 1.4.0
 
 - makes `AnsiPen ansiPen` required in `ansiColorizer`
@@ -33,13 +38,13 @@
 
 - Lists colorized, generated colors in terminal
 
-    ```sh
-    $ gator -c colors.yaml
-    Generated Material Color (0xff062091) Royal Blue
-    Generated Material Color (0xffd6d6d6) Grey
-    Generated Material Color (0xff663399) Rebecca Purple
-    🖍 Created file: my_colors.g.dart!
-    ```
+  ```sh
+  $ gator -c colors.yaml
+  Generated Material Color (0xff062091) Royal Blue
+  Generated Material Color (0xffd6d6d6) Grey
+  Generated Material Color (0xff663399) Rebecca Purple
+  🖍 Created file: my_colors.g.dart!
+  ```
 
 ## 1.2.1
 
